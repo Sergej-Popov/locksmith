@@ -9,25 +9,12 @@ export class ReportBuilder {
     private pwndService: PwnedService,
   ) {}
 
-  // public async weakPassword() {
-  //   throw new Error("Method not implemented.");
-  // }
-
-  // public async reusedPasswords() {
-  //   throw new Error("Method not implemented.");
-  // }
-
-  // public async pwnedEmails() {
-  //   throw new Error("Method not implemented.");
-  // }
-
   public async pwnedPasswords(): Promise<ICredential[]> {
     const allItems = await this.passRepo.getCredentials();
 
     const compromisedItems: ICredential[] = [];
 
     for (const item of allItems) {
-
       const check = await this.pwndService.checkPassword(item.password);
 
       if (check.isPwned) {

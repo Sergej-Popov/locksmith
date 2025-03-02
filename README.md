@@ -8,15 +8,16 @@ CLI utility to check Bitwarden credentials for security gaps.
 - Report URLs associated credentials not using HTTPS
 
 Doesn't store or send credentials anywhere.\
-Uses hash snippets to check breaches using k-anonymity model. Read more on Troy Hunt blog
+Uses hash snippets to check breaches using k-anonymity model. Read more on Troy
+Hunt blog
 [here](https://www.troyhunt.com/understanding-have-i-been-pwneds-use-of-sha-1-and-k-anonymity/)
 
 ## Dependencies
 
 - [Bitwarden CLI](https://bitwarden.com/help/cli/) (Installed and logged in)
 - [Deno Runtime](https://docs.deno.com/runtime/) (Installed)
-- [Have I Been Pwned API](https://haveibeenpwned.com/API/v3#PwnedPasswords) (No action by user)
-
+- [Have I Been Pwned API](https://haveibeenpwned.com/API/v3#PwnedPasswords) (No
+  action by user)
 
 ## Build & Run
 
@@ -70,11 +71,11 @@ Locksmith CLI provides the following commands:
 
 ![alt text](img/reused.png)
 
-
 ## unsecure-urls
+
 ![alt text](img/https.png)
 
-##  Notes
+## Notes
 
 - Lock Bitwarden session when finished:
   ```bash
