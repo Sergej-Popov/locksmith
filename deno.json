@@ -1,0 +1,22 @@
+{
+  "tasks": {
+    "run": "deno run --unstable-temporal --allow-read --allow-run --allow-write --allow-net locksmith.ts",
+    "lint": "deno lint",
+    "upgrade": "deno outdated --update --latest --interactive",
+    "compile-linux": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-unknown-linux-gnu --output dist/linux/locksmith locksmith.ts",
+    "compile-macos": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-apple-darwin --output dist/macos/locksmith locksmith.ts",
+    "compile-windows": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-pc-windows-msvc --output dist/windows/locksmith.exe locksmith.ts",
+    "compile": {
+      "dependencies": [
+        "compile-linux",
+        "compile-macos",
+        "compile-windows"
+      ]
+    }
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.7",
+    "log": "jsr:@std/log@0.224.14"
+  }
+}
