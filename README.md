@@ -2,10 +2,10 @@
 
 CLI utility to check Bitwarden credentials for security gaps.
 
-- Check passwords where exposed in data breach using
+- Check passwords were exposed in data breach using
   [Have I Been Pwned](https://haveibeenpwned.com/) service.
 - Report on reused passwords
-- Report URLs associated credentials not using HTTPS
+- Report URLs associated with credentials not using HTTPS
 
 Doesn't store or send credentials anywhere.\
 Uses hash snippets to check breaches using k-anonymity model. Read more on Troy
