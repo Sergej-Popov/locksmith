@@ -81,3 +81,14 @@ Locksmith CLI provides the following commands:
   ```bash
   bw lock
   ```
+
+## Contributions
+
+Open issues or draft PRs to discuss new features & fixes.
+
+## TODO
+
+Other Password Managers.
+
+- [LastPass CLI](https://github.com/lastpass/lastpass-cli)
+- [1Password CLI](https://developer.1password.com/docs/cli/)
