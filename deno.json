@@ -10,14 +10,18 @@
       ]
     },
     "upgrade": "deno outdated --update --latest --interactive",
-    "compile-linux": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-unknown-linux-gnu --output dist/linux/locksmith locksmith.ts",
-    "compile-macos": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-apple-darwin --output dist/macos/locksmith locksmith.ts",
-    "compile-windows": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-pc-windows-msvc --output dist/windows/locksmith.exe locksmith.ts",
+    "compile-linux-intel": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-unknown-linux-gnu --output dist/linux-intel/locksmith locksmith.ts",
+    "compile-linux-arm": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target aarch64-unknown-linux-gnu --output dist/linux-arm/locksmith locksmith.ts",
+    "compile-macos-intel": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-apple-darwin --output dist/macos-intel/locksmith locksmith.ts",
+    "compile-macos-arm": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target aarch64-apple-darwin --output dist/macos-arm/locksmith locksmith.ts",
+    "compile-windows-intel": "deno compile --unstable-temporal --allow-read --allow-run --allow-write --allow-net --target x86_64-pc-windows-msvc --output dist/windows-intel/locksmith.exe locksmith.ts",
     "compile": {
       "dependencies": [
-        "compile-linux",
-        "compile-macos",
-        "compile-windows"
+        "compile-linux-intel",
+        "compile-linux-arm",
+        "compile-macos-intel",
+        "compile-macos-arm",
+        "compile-windows-intel"
       ]
     }
   },

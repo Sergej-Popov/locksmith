@@ -1,0 +1,105 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Compile binaries
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            compile_cmd: "deno task compile-linux-intel"
+            artifact_path: "dist/linux-intel/locksmith"
+            artifact_name: "locksmith-linux-x86_64"
+
+          - os: ubuntu-latest
+            compile_cmd: "deno task compile-linux-arm"
+            artifact_path: "dist/linux-arm/locksmith"
+            artifact_name: "locksmith-linux-aarch64"
+
+          - os: macos-latest
+            compile_cmd: "deno task compile-macos-intel"
+            artifact_path: "dist/macos-intel/locksmith"
+            artifact_name: "locksmith-macos-x86_64"
+
+          - os: macos-latest
+            compile_cmd: "deno task compile-macos-arm"
+            artifact_path: "dist/macos-arm/locksmith"
+            artifact_name: "locksmith-macos-aarch64"
+
+          - os: windows-latest
+            compile_cmd: "deno task compile-windows-intel"
+            artifact_path: "dist/windows-intel/locksmith.exe"
+            artifact_name: "locksmith-windows-x86_64"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: latest
+
+      - name: Compile binary
+        run: ${{ matrix.compile_cmd }}
+
+      - name: Extract version tag
+        if: matrix.os != 'windows-latest'
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
+
+    outputs:
+      version: ${{ env.VERSION }}
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Compress
+        run: |
+          echo "Version: ${{ needs.build.outputs.version }}"
+          mkdir -p dist/compressed
+          tar -czvf dist/compressed/locksmith-linux-x86_64-${{ needs.build.outputs.version }}.tar.gz -C dist/locksmith-linux-x86_64 locksmith
+          tar -czvf dist/compressed/locksmith-linux-aarch64-${{ needs.build.outputs.version }}.tar.gz -C dist/locksmith-linux-aarch64 locksmith
+          tar -czvf dist/compressed/locksmith-macos-x86_64-${{ needs.build.outputs.version }}.tar.gz -C dist/locksmith-macos-x86_64 locksmith
+          tar -czvf dist/compressed/locksmith-macos-aarch64-${{ needs.build.outputs.version }}.tar.gz -C dist/locksmith-macos-aarch64 locksmith
+          tar -czvf dist/compressed/locksmith-windows-x86_64-${{ needs.build.outputs.version }}.tar.gz -C dist/locksmith-windows-x86_64 locksmith.exe
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/compressed/locksmith-linux-x86_64-${{ needs.build.outputs.version }}.tar.gz
+            dist/compressed/locksmith-linux-aarch64-${{ needs.build.outputs.version }}.tar.gz
+            dist/compressed/locksmith-macos-x86_64-${{ needs.build.outputs.version }}.tar.gz
+            dist/compressed/locksmith-macos-aarch64-${{ needs.build.outputs.version }}.tar.gz
+            dist/compressed/locksmith-windows-x86_64-${{ needs.build.outputs.version }}.tar.gz
+          draft: false
+          prerelease: false
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}

@@ -1,5 +1,7 @@
 import { Command, EnumType } from "@cliffy/command";
 import * as log from "log";
+
+import { version } from "./version.ts";
 import { PwnedService } from "./pwnd-service.ts";
 import {
   BitwardenRepository,
@@ -108,6 +110,15 @@ const reporterTypes = new EnumType(["console", "json", "csv"]);
 const app = new Command().name("locksmith").description(
   "CLI utility to check Bitwarden passwords for security gaps.",
 );
+
+app
+  .command(
+    "--version",
+    "Show version",
+  )
+  .action(() => {
+    log.info(`Locksmith version: ${version}`);
+  });
 
 app
   .command(

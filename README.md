@@ -75,6 +75,14 @@ Locksmith CLI provides the following commands:
 
 ![alt text](img/https.png)
 
+## Release
+
+```sh
+# match tag to vertion.ts
+git tag -a v1.0.0 -m "Release description"
+git push origin v1.0.0
+```
+
 ## Notes
 
 - Lock Bitwarden session when finished:
@@ -91,4 +99,3 @@ Open issues or draft PRs to discuss new features & fixes.
 Other Password Managers.
 
 - [LastPass CLI](https://github.com/lastpass/lastpass-cli)
-- [1Password CLI](https://developer.1password.com/docs/cli/)
